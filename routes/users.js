@@ -22,6 +22,13 @@ router.post('/' , (req, res, next) => {
   let email = req.body.users.email;
   let phone = req.body.users.phone;
 
+  if(!email || email.trim() === ''){
+    const err = new Error('Password must not be blank.');
+    err.status = 400;
+
+    return next(err);
+  }
+
   knex('users')
     .insert({
       firstname: firstName,
@@ -37,6 +44,17 @@ router.post('/' , (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+router.use((err, req, res, next) => {
+  if(err.status){
+    return res
+      .status(err.status)
+      .set('Content-Type', 'text/plain')
+      .send(err.message);
+  }
+  console.err(err);
+  res.sendStatus(500);
 });
 
 module.exports = router;
