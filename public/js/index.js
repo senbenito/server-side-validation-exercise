@@ -25,6 +25,7 @@ $('#submit').click(function (event){
       window.location.href = '/';
     })
     .fail((err) => {
+      console.log(options.data);
       console.log(err);
     });
   });

@@ -13,6 +13,17 @@ const users = require('./routes/users');
 
 app.use('/users', users);
 
+app.use((err, _req, res, _next) => {
+  if (err.status) {
+    console.log('err.message', err.message);
+
+    return res.status(err.status).send(err.message);
+  }
+
+  console.error(err);
+  res.sendStatus(500);
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
