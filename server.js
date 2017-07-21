@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
+const ev = require('express-validation');
 
 app.use(express.static('./public'));
 
@@ -15,11 +16,9 @@ app.use('/users', users);
 
 app.use((err, _req, res, _next) => {
   if (err.status) {
-    console.log('err.message', err.message);
-
-    return res.status(err.status).send(err.message);
+    return res.status(err.status)
+      .send(err.responseText);
   }
-
   console.error(err);
   res.sendStatus(500);
 });

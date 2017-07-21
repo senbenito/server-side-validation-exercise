@@ -17,16 +17,14 @@ router.get('/' , (req, res, next) => {
     });
 });
 
-router.post('/' , ev(validations.schema), (err, req, res, next) => {
-  console.log('req.body', req.body);
+router.post('/' , ev(validations.post), (req, res, next) => {
   let firstName = req.body.users.firstName;
   let lastName = req.body.users.lastName;
   let username = req.body.users.username;
   let email = req.body.users.email;
   let phone = req.body.users.phone;
 
- if (err instanceof ev.ValidationError) return res.status(err.status).json(err); 
-
+  // Vanilla JS method:
   // if(!email || email.trim() === ''){
   //   const err = new Error('Password must not be blank.');
   //   err.status = 400;
